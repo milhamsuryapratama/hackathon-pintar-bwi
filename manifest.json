@@ -1,0 +1,8 @@
+{
+    "name": "photohunt-843a4",
+    "short_name": "photohunt",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "orientation": "portrait",
+    "gcm_sender_id": "284779579452"
+}

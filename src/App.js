@@ -1,26 +1,47 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import firebase from './config/firebase';
+
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import routes from './routes';
+
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer from './reducers';
+import thunk from 'redux-thunk';
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    // firebase.auth().onAuthStateChanged(function (user) {
+    //   if (user) {
+    //     return null
+    //   } else {
+    //     this.props.history.push('/');
+    //   }
+    // });
+  }
+
+
   render() {
+    // console.log(this.state)
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <Provider store={store}>
+          <div id="app">
+
+            {routes.map((item, index) => {
+              const { screen, ...rest } = item;
+              const Component = require(`./screens/${screen}`).default;
+              return <Route key={index} component={Component} {...rest} />
+            })}
+          </div>
+        </Provider>
+      </Router>
     );
   }
 }
